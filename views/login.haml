@@ -1,0 +1,5 @@
+%h1 Logga in
+%p
+  = form_tag '/admin', :method=>:post do
+    = label_tag "Lösenord", :for=>'password'
+    = input_tag :password, :name => 'password'

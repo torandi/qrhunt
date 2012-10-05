@@ -1,0 +1,33 @@
+%h1 QR Hunt - Admin
+
+%h2 Ny kod
+
+%div 
+  = form_tag '/add_tag', :method=>:post do
+    %p
+      = label_tag "Namn", :for=>'name'
+      = input_tag :text, :name => 'name'
+    %p
+      = label_tag "Värde", :for=>'points'
+      = input_tag :text, :name => 'points'
+    %p
+      = input_tag :submit, :value=>"Skapa"
+
+%h2 Alla koder
+
+%div
+  %table
+    %thead
+      %tr
+        %th Namn
+        %th Värde
+        %th Länk
+        %th Radera
+    %tbody
+      - @tags.each do |tag|
+        %tr
+          %td= tag.name
+          %td= tag.points
+          %td= link_to "/qr/#{@tag.code}", "qr/#{@tag.code}"
+          %td= link_to "/delete_tag/#{@tag.id}" "Radera"
+

@@ -1,4 +1,4 @@
-require_relative 'config.rb'
+require 'digest/sha1'
 
 ActiveRecord::Base.establish_connection(@db_config)
 
@@ -6,11 +6,18 @@ ActiveRecord::Base.establish_connection(@db_config)
 
 # Models
 
-class Code < ActiveRecord::Base 
+class Tag < ActiveRecord::Base 
+	validates_uniqueness_of :name
+	validates_uniqueness_of :code
+
+	def create_code
+		Digest::SHA1.hexdigest "#{name}#{Time.now}" 
+	end
 end
 
 class User < ActiveRecord::Base
 	has_many :code
+	validates_uniqueness_of :name
 
 	def score
 		codes.reduce do |sum, code|
