@@ -12,6 +12,7 @@ require_relative 'config.rb'
 # Application specific libraries
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |f| require f }
 
+$flash = Hash.new
 
 
 get '/' do
@@ -60,5 +61,32 @@ post '/add_tag' do
 	end
 end
 
-get '/qr/:code' do 
+get '/u' do
+	if authorize
+		haml :my_page
+	else
+		haml :create_user
+	end
+end
+
+post '/create_user' do
+
+end
+
+get '/qr/:code' do
+	@code = params[:code]
+	@tag = Tag.find_by_code(@code)
+	$flash["error"] = "Ogiltlig kod." unless @tag
+	if authorize
+		if @tag
+			if @user.add_code(@tag)
+				$flash["success"] = "Taggade #{@tag.name}"
+			else
+				$flash["normal"] = "Du har redan taggat #{@tag.name}"
+			end
+		end
+		haml :my_page
+	else
+		haml :create_user
+	end
 end

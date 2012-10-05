@@ -17,12 +17,21 @@ class Tag < ActiveRecord::Base
 end
 
 class User < ActiveRecord::Base
-	has_many :code
+	has_many :tags
 	validates_uniqueness_of :name
 
 	def score
 		codes.reduce do |sum, code|
 			sum += code.points
+		end
+	end
+
+	def add_tag(tag) 
+		if !tags.find_by_code(tag.code)
+			tags << tag
+			true
+		else
+			false
 		end
 	end
 end

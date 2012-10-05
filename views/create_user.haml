@@ -1,0 +1,18 @@
+%h1 QR Hunt - Ny spelare
+
+%p 
+  %strong Välkommen!
+  Skriv in ett användarnamn för att börja spela.
+  Notera att du måste spela på samma telefon hela tiden.
+
+  = form_tag "/create_user", :method=>:post do
+    = input_tag :hidden,:name=>"code", :value=>@code
+    %p
+      = label_tag "Namn:", :for=>"name"
+      = input_tag :text, :name=>"name"
+
+    %p
+      = input_tag :submit, :value => "Börja spela"
+
+
+
