@@ -7,9 +7,14 @@ ActiveRecord::Base.establish_connection(@db_config)
 # Models
 
 class Code < ActiveRecord::Base 
-	
 end
 
 class User < ActiveRecord::Base
+	has_many :code
 
+	def score
+		codes.reduce do |sum, code|
+			sum += code.points
+		end
+	end
 end
