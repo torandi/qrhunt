@@ -19,7 +19,7 @@ before do
 end
 
 get '/' do
-	@users = User.all.sort_by { |obj| obj.score }.reverse
+	@users = User.all.sort_by { :score }.reverse
 	haml :index
 end
 
@@ -46,9 +46,23 @@ post '/admin' do
 	end
 end
 
+get '/login/:id' do |id|
+	redirect to '/admin' unless is_admin
+	@user = User.find_by_id(id)
+	cookies[:user_id] = id
+	cookies[:user_key] = @user.key
+	redirect to '/u'
+end
+
 get '/logout' do
 	cookies[:admin_password] = ""
 	redirect to '/'
+end
+
+get '/ulogout' do
+	redirect to '/' unless is_admin # Only admins may logout normal users
+	cookies[:user_id] = nil
+	redirect to '/admin'
 end
 
 post '/add_tag' do
@@ -89,9 +103,16 @@ post '/create_user' do
 		$flash["error"] = "Namnet är upptaget, kom på nått nytt för fan!"
 		haml :create_user
 	else
-		@user = User.create(:name=>params[:name])
+		@user = User.new(:name=>params[:name])
+		@user.generate_key
+		@user.save
 		cookies[:user_id] = @user.id
-		redirect to("/qr/#{@code}")
+		cookies[:user_key] = @user.key
+		if @code
+			redirect to("/qr/#{@code}")
+		else
+			redirect to "/u"
+		end
 	end
 end
 

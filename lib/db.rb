@@ -22,10 +22,27 @@ class User < ActiveRecord::Base
 	has_and_belongs_to_many :tags
 	validates_uniqueness_of :name
 
-	def score
-		tags.reduce(0) do |sum, tag|
-			sum += tag.points
+	def position_with_next_and_prev
+		# Ah, the fulhack
+		users = User.all.sort_by {:score}.reverse
+		users.each_with_index do |u, index|
+			if u.id == self.id 
+				n = nil
+				prev = nil
+				n = users[index - 1] if index - 1 > -1
+				prev = users[index + 1] if index + 1 < users.length
+				return index + 1, n, prev
+			end
 		end
+	end
+
+	def position
+		pos, n, prev = position_with_next_and_prev
+		return pos
+	end
+
+	def score
+		tags.sum(:points)
 	end
 
 	def add_tag(tag) 
@@ -35,5 +52,9 @@ class User < ActiveRecord::Base
 		else
 			false
 		end
+	end
+
+	def generate_key
+		self.key = Digest::SHA1.hexdigest "#{Random.rand(1000)}#{name}#{Time.now}" 
 	end
 end

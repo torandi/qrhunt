@@ -1,10 +1,37 @@
+- pos, u_next, u_prev = @user.position_with_next_and_prev
+
 %h1
   = @user.name
-  (
-  = @user.score
+  (#
+  = pos
   )
 
-%h2 Funna taggar
+%p
+  %strong Total antal poäng:
+  =@user.score
+
+%p
+  %strong Nästa uppåt:
+  - if u_next
+    = u_next.name
+    med
+    = u_next.score
+    poäng
+  - else
+    \-
+
+%p
+  %strong Nästa neråt:
+  - if u_prev
+    = u_prev.name
+    med
+    = u_prev.score
+    poäng
+  - else
+    \-
+
+
+%h3 Funna taggar
 
 %p
   %ul
@@ -13,4 +40,5 @@
         %strong= tag.name
         (
         =tag.points
+        poäng
         )

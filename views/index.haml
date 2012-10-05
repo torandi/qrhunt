@@ -6,7 +6,13 @@
 %h2 Highscore
 
 #highscore
-  - @users.each do |user|
-    %p
-      = user.name   
-      = user.score
+  %table{:class=>"table table-striped table-hover"}
+    %thead
+      %tr
+        %th Spelare
+        %th Poäng
+    %tbody
+      - @users.each do |user|
+        %tr
+          %td= user.name
+          %td= user.score
