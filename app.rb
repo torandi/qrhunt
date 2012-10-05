@@ -23,6 +23,12 @@ get '/' do
 	haml :index
 end
 
+get '/live' do
+	@users = User.all.sort_by { :score }.reverse
+	@live = true
+	haml :index
+end
+
 get '/admin' do
 	if is_admin
 		haml :admin
