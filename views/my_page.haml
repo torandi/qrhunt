@@ -1,0 +1,16 @@
+%h1
+  = @user.name
+  (
+  = @user.score
+  )
+
+%h2 Funna taggar
+
+%p
+  %ul
+    - @user.tags.each do |tag|
+      %li
+        %strong= tag.name
+        (
+        =tag.points
+        )

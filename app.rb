@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Bundler
 require 'rubygems'
 require 'bundler/setup'
@@ -22,7 +24,6 @@ end
 
 get '/admin' do
 	if is_admin
-		@tags = Tag.all
 		haml :admin
 	else
 		haml :login
@@ -61,6 +62,16 @@ post '/add_tag' do
 	end
 end
 
+get '/delete_tag/:id' do |id|
+	redirect to "/admin" unless is_admin
+
+	@tag = Tag.find_by_id(id)
+	@tag.delete
+	$flash["success"] = "Tagen raderad"
+
+	haml :admin
+end
+
 get '/u' do
 	if authorize
 		haml :my_page
@@ -70,7 +81,15 @@ get '/u' do
 end
 
 post '/create_user' do
-
+	@code = params[:code]
+	if User.find_by_name(params[:name])
+		$flash["error"] = "Namnet är upptaget, kom på nått nytt för fan!"
+		haml :create_user
+	else
+		@user = User.create(:name=>params[:name])
+		cookies[:user_id] = @user.id
+		redirect to("/qr/#{@code}")
+	end
 end
 
 get '/qr/:code' do

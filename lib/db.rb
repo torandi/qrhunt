@@ -21,8 +21,8 @@ class User < ActiveRecord::Base
 	validates_uniqueness_of :name
 
 	def score
-		codes.reduce do |sum, code|
-			sum += code.points
+		tags.reduce do |sum, tag|
+			sum += tag.points
 		end
 	end
 

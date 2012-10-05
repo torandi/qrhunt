@@ -1,7 +1,7 @@
 
 def authorize
 	if cookies[:user_id]
-		@user = User.find(cookies[:user_id])
+		@user = User.find_by_id(cookies[:user_id])
 		return @user
 	else
 		return nil

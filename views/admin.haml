@@ -24,7 +24,7 @@
         %th Länk
         %th Radera
     %tbody
-      - @tags.each do |tag|
+      - Tag.all.each do |tag|
         %tr
           %td= tag.name
           %td= tag.points
