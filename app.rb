@@ -28,6 +28,12 @@ get '/admin' do
 	end
 end
 
+get '/tags' do
+	redirect to("/admin") unless is_admin
+	@tags = Tag.all
+	haml :tags
+end
+
 post '/admin' do
 	if params[:password] == $password
 		cookies[:admin_password] = params[:password]

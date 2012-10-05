@@ -4,4 +4,4 @@
 }
 
 $password = "kaka4711
-$baseurl = "http://localhost:4567/"
+$baseurl = "http://localhost:4567"

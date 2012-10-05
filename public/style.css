@@ -1,0 +1,9 @@
+.tag {
+	float: left;
+	margin: 5px;
+}
+
+.tag_name {
+	font-weight: bold;
+	text-align: center;
+}

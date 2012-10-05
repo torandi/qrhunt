@@ -16,7 +16,7 @@
 %h2 Alla koder
 
 %div
-  %table
+  %table{:class=>"table table-striped table-hover"}
     %thead
       %tr
         %th Namn
@@ -29,7 +29,7 @@
           %td= tag.name
           %td= tag.points
           %td
-            %a{href: "/qr/#{tag.code}"} qr/#{tag.code}
+            %a{href: "/qr/#{tag.code}"} #{$baseurl}/qr/#{tag.code}
           %td
-            %a{href: "/delete_tag/#{tag.id}"} "Radera"
+            %a{href: "/delete_tag/#{tag.id}"} Radera
 
