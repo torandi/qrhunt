@@ -3,5 +3,5 @@
 	database: "db/qrhunt.db"
 }
 
-$password = "kaka4711
+$password = "kaka4711"
 $baseurl = "http://localhost:4567"
