@@ -50,7 +50,7 @@ post '/add_tag' do
 	if @tag.save
 		redirect to "/admin"
 	else
-		"Failed to save tag, #{@tag.inspect}"
+		"Failed to save tag, #{@tag.errors.inspect}"
 	end
 end
 

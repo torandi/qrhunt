@@ -28,6 +28,8 @@
         %tr
           %td= tag.name
           %td= tag.points
-          %td= link_to "/qr/#{@tag.code}", "qr/#{@tag.code}"
-          %td= link_to "/delete_tag/#{@tag.id}" "Radera"
+          %td
+            %a{href: "/qr/#{tag.code}"} qr/#{tag.code}
+          %td
+            %a{href: "/delete_tag/#{tag.id}"} "Radera"
 

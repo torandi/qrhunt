@@ -10,8 +10,9 @@ class Tag < ActiveRecord::Base
 	validates_uniqueness_of :name
 	validates_uniqueness_of :code
 
-	def create_code
-		Digest::SHA1.hexdigest "#{name}#{Time.now}" 
+
+	def generate_code
+		self.code = Digest::SHA1.hexdigest "#{name}#{Time.now}" 
 	end
 end
 
