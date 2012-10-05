@@ -7,6 +7,8 @@ ActiveRecord::Base.establish_connection(@db_config)
 # Models
 
 class Tag < ActiveRecord::Base 
+	has_and_belongs_to_many :users
+
 	validates_uniqueness_of :name
 	validates_uniqueness_of :code
 
@@ -17,11 +19,11 @@ class Tag < ActiveRecord::Base
 end
 
 class User < ActiveRecord::Base
-	has_many :tags
+	has_and_belongs_to_many :tags
 	validates_uniqueness_of :name
 
 	def score
-		tags.reduce do |sum, tag|
+		tags.reduce(0) do |sum, tag|
 			sum += tag.points
 		end
 	end

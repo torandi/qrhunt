@@ -14,8 +14,9 @@ require_relative 'config.rb'
 # Application specific libraries
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |f| require f }
 
-$flash = Hash.new
-
+before do
+	$flash = Hash.new 
+end
 
 get '/' do
 	@users = User.all
@@ -56,9 +57,11 @@ post '/add_tag' do
 	@tag = Tag::new(params)
 	@tag.generate_code
 	if @tag.save
-		redirect to "/admin"
+		$flash["success"] = "Skapade tag"
+		haml :admin
 	else
-		"Failed to save tag, #{@tag.errors.inspect}"
+		$flash["error"] = "Failed to save tag, #{@tag.errors.inspect}"
+		haml :admin
 	end
 end
 
@@ -98,7 +101,7 @@ get '/qr/:code' do
 	$flash["error"] = "Ogiltlig kod." unless @tag
 	if authorize
 		if @tag
-			if @user.add_code(@tag)
+			if @user.add_tag(@tag)
 				$flash["success"] = "Taggade #{@tag.name}"
 			else
 				$flash["normal"] = "Du har redan taggat #{@tag.name}"
