@@ -10,9 +10,13 @@
     %thead
       %tr
         %th Spelare
+        %th 
         %th Poäng
     %tbody
       - @users.each do |user|
         %tr
           %td= user.name
+          %td
+            .progress
+              .bar{:style=>"width: #{user.progress}%"}
           %td= user.score

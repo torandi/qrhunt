@@ -57,4 +57,8 @@ class User < ActiveRecord::Base
 	def generate_key
 		self.key = Digest::SHA1.hexdigest "#{Random.rand(1000)}#{name}#{Time.now}" 
 	end
+
+	def progress
+		100.0 * (score.to_f/Tag.sum(:points).to_f)
+	end
 end
