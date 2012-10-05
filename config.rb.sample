@@ -1,0 +1,6 @@
+@db_config = {
+	adapter: "sqlite3",
+	database: "qrhunt.db"
+}
+
+@password = "kaka4711
