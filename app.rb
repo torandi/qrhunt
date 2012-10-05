@@ -19,7 +19,7 @@ before do
 end
 
 get '/' do
-	@users = User.all
+	@users = User.all.sort_by { |obj| obj.score }.reverse
 	haml :index
 end
 
