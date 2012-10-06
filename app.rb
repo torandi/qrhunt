@@ -103,6 +103,21 @@ get '/u' do
 	end
 end
 
+post '/delete_user' do
+	redirect to '/' unless is_admin
+	@user = User.find_by_id(params[:id])
+	if @user
+		if @user.delete
+			$flash['success'] = "Användaren raderades"
+		else
+			$flash["error"] = "Kunde inte radera användaren: #{@user.errors}"
+		end
+	else
+		$flash["error"] = "Användaren hittades inte"
+	end
+	haml :admin
+end
+
 post '/create_user' do
 	@code = params[:code]
 	if User.find_by_name(params[:name])

@@ -45,4 +45,8 @@
       %tr
         %td
           %a{href: "/login/#{user.id}"}= user.name
+        %td
+          = form_tag '/delete_user', :method=>:post do
+            = input_tag :hidden, :name=>'id', :value=>user.id
+            = input_tag :submit, :value=>"Radera", :onclick=>"return confirm('Radera #{user.name}?');"
 
