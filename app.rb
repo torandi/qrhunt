@@ -19,12 +19,12 @@ before do
 end
 
 get '/' do
-	@users = User.all.sort_by { :score }.reverse
+	@users = User.ranking
 	haml :index
 end
 
 get '/live' do
-	@users = User.all.sort_by { :score }.reverse
+	@users = User.ranking
 	@live = true
 	haml :index
 end

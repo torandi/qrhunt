@@ -22,9 +22,14 @@ class User < ActiveRecord::Base
 	has_and_belongs_to_many :tags
 	validates_uniqueness_of :name
 
+
+	def self.ranking
+		User.all.sort_by {|u| u.score }.reverse
+	end
+
 	def position_with_next_and_prev
 		# Ah, the fulhack
-		users = User.all.sort_by {:score}.reverse
+		users = User.ranking
 		users.each_with_index do |u, index|
 			if u.id == self.id 
 				n = nil
